@@ -1,70 +1,74 @@
-# Getting Started with Create React App
+Submitted by: Siva Macharla Vimjam
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This web app: A flashcard application that displays a set of cards one at a time. Each card shows either a question or answer, flips on click to reveal the other side, and lets the user view a new random card with a next button.
 
-## Available Scripts
+Time spent: 4 hours spent in total
 
-In the project directory, you can run:
+Required Features
+The following required functionality is completed:
 
-### `npm start`
+ The app displays the title of the card set, a short description, and the total number of cards
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+ Title of card set is displayed
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+ A short description of the card set is displayed
 
-### `npm test`
+ A list of card pairs is created
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+ The total number of cards in the set is displayed
 
-### `npm run build`
+ Card set is represented as a list of card pairs (an array of dictionaries where each dictionary contains the question and answer)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+ A single card at a time is displayed
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+ Only one half of the information pair is displayed at a time
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+ Clicking on the card flips the card over, showing the corresponding component of the information pair
 
-### `npm run eject`
+ Clicking on a card flips it over, showing the back with corresponding information
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+ Clicking on a flipped card again flips it back, showing the front
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+ Clicking on the next button displays a random new card
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+The following optional features are implemented:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+ Cards contain images in addition to or in place of text
 
-## Learn More
+ Some or all cards have images in place of or in addition to text
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+ Cards have different visual styles such as color based on their category
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Example categories you can use:
 
-### Code Splitting
+Difficulty: Easy/medium/hard
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Subject: Biology/Chemistry/Physics/Earth science
 
-### Analyzing the Bundle Size
+The following additional features are implemented:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+ List anything else that you added to improve the site's functionality!
 
-### Making a Progressive Web App
+Video Walkthrough
+Here's a walkthrough of implemented required features:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+<img src="https://submissions.us-east-1.linodeobjects.com/web102/u739vxCw.gif" title="Video Walkthrough" alt="Video Walkthrough" />
 
-### Advanced Configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Notes
+Challenges included ensuring smooth card flip animation and correctly managing state so the card flips back and forth without bugs. Also, randomizing the next card without repetition was tricky but resolved with careful state updates.
 
-### Deployment
+License
+Copyright 2025 Siva Macharla Vimjam
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-### `npm run build` fails to minify
+    http://www.apache.org/licenses/LICENSE-2.0
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
