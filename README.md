@@ -47,7 +47,7 @@ The following **stretch** features are implemented:
 ### Video Walkthrough
 Here's a walkthrough of the implemented features:
 
-<img src="https://submissions.us-east-1.linodeobjects.com/web102/u739vxCw.gif" title="Video Walkthrough" alt="Video Walkthrough" />
+<img src="https://submissions.us-east-1.linodeobjects.com/web102/5b-e8Y4H.gif" title="Video Walkthrough" alt="Video Walkthrough" />
 
 ---
 
