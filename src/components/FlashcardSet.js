@@ -1,100 +1,8 @@
-// import React, { useState } from "react";
-// import "./FlashcardSet.css";
-// import { ChevronLeft, ChevronRight } from "lucide-react";
-
-// const flashcards = [
-//   {
-//     question: "What is the capital of France?",
-//     answer: "Paris",
-//     category: "easy",
-//     image: "/images/paris.jpg",
-//   },
-//   {
-//     question: "What is 9 x 12?",
-//     answer: "108",
-//     category: "medium",
-//     image: null,
-//   },
-//   {
-//     question: "What is the derivative of x²?",
-//     answer: "2x",
-//     category: "hard",
-//     image: null,
-//   },
-//   {
-//     question: "Is tomato a fruit?",
-//     answer: "Yes",
-//     category: "easy",
-//     image: "https://upload.wikimedia.org/wikipedia/commons/8/89/Tomato_je.jpg",
-//   },
-//   {
-//     question: "Who wrote '1984'?",
-//     answer: "George Orwell",
-//     category: "medium",
-//     image: null,
-//   },
-// ];
-
-// const categoryColors = {
-//   easy: "#d4edda",
-//   medium: "#fff3cd",
-//   hard: "#f8d7da",
-// };
-
-// function FlashcardSet() {
-//   const [index, setIndex] = useState(0);
-//   const [showAnswer, setShowAnswer] = useState(false);
-
-//   const nextCard = () => {
-//     setShowAnswer(false);
-//     setIndex((prev) => (prev + 1) % flashcards.length);
-//   };
-
-//   const prevCard = () => {
-//     setShowAnswer(false);
-//     setIndex((prev) =>
-//       prev === 0 ? flashcards.length - 1 : prev - 1
-//     );
-//   };
-
-//   const currentCard = flashcards[index];
-
-//   return (
-//     <div className="flashcard-set">
-//       <h1>The Ultimate Flashcard Set!</h1>
-//       <p>Test your knowledge and flip the card to see the answer.</p>
-//       <p className="card-count">Card {index + 1} of {flashcards.length}</p>
-
-//       <div
-//         className="flashcard"
-//         style={{ backgroundColor: categoryColors[currentCard.category] }}
-//         onClick={() => setShowAnswer(!showAnswer)}
-//       >
-//         {currentCard.image && (
-//           <img src={currentCard.image} alt="flashcard" className="card-img" />
-//         )}
-//         <h2>{showAnswer ? currentCard.answer : currentCard.question}</h2>
-//       </div>
-
-//       <div className="nav-buttons">
-//         <button onClick={prevCard}>
-//           <ChevronLeft size={24} /> Prev
-//         </button>
-//         <button onClick={nextCard}>
-//           Next <ChevronRight size={24} />
-//         </button>
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default FlashcardSet;
-
 import React, { useState } from "react";
 import "./FlashcardSet.css";
-import { ChevronLeft, Shuffle } from "lucide-react";
+import { ChevronLeft, ChevronRight, Shuffle } from "lucide-react";
 
-const flashcards = [
+const initialFlashcards = [
   {
     question: "What is the capital of France?",
     answer: "Paris",
@@ -133,47 +41,100 @@ const flashcards = [
 ];
 
 const categoryColors = {
-  easy: "#d4edda",     // light green
-  medium: "#fff3cd",   // light yellow
-  hard: "#f8d7da",     // light red
+  easy: "#d4edda",
+  medium: "#fff3cd",
+  hard: "#f8d7da",
 };
 
 function FlashcardSet() {
+  const [cards, setCards] = useState(initialFlashcards);
   const [index, setIndex] = useState(0);
+  const [guess, setGuess] = useState("");
+  const [feedback, setFeedback] = useState("");
   const [showAnswer, setShowAnswer] = useState(false);
+  const [streak, setStreak] = useState(0);
+  const [maxStreak, setMaxStreak] = useState(0);
+  const [masteredCards, setMasteredCards] = useState([]);
 
-  const currentCard = flashcards[index];
+  const currentCard = cards[index];
 
-  const nextRandomCard = () => {
-    setShowAnswer(false);
-    let newIndex = index;
-    while (newIndex === index && flashcards.length > 1) {
-      newIndex = Math.floor(Math.random() * flashcards.length);
+  const normalize = (str) =>
+    str.toLowerCase().replace(/[^\w\s]|_/g, "").trim();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (normalize(guess) === normalize(currentCard.answer)) {
+      setShowAnswer(true);
+      setFeedback("✅ Correct!");
+      const newStreak = streak + 1;
+      setStreak(newStreak);
+      if (newStreak > maxStreak) setMaxStreak(newStreak);
+    } else {
+      setFeedback("❌ Try again!");
     }
-    setIndex(newIndex);
+  };
+
+  const nextCard = () => {
+    if (index < cards.length - 1) {
+      setIndex(index + 1);
+      resetState();
+    }
   };
 
   const prevCard = () => {
-    setShowAnswer(false);
-    setIndex((prev) =>
-      prev === 0 ? flashcards.length - 1 : prev - 1
-    );
+    if (index > 0) {
+      setIndex(index - 1);
+      resetState();
+    }
   };
+
+  const shuffleCards = () => {
+    const shuffled = [...cards].sort(() => 0.5 - Math.random());
+    setCards(shuffled);
+    setIndex(0);
+    resetState();
+  };
+
+  const resetState = () => {
+    setGuess("");
+    setFeedback("");
+    setShowAnswer(false);
+  };
+
+  const markAsMastered = () => {
+    const newCards = cards.filter((_, i) => i !== index);
+    setMasteredCards([...masteredCards, currentCard]);
+    setCards(newCards);
+    if (index >= newCards.length) {
+      setIndex(newCards.length - 1);
+    }
+    resetState();
+  };
+
+  if (cards.length === 0) {
+    return (
+      <div className="flashcard-set">
+        <h1>All Cards Mastered 🎉</h1>
+        <p>Well done! You've mastered all flashcards.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="flashcard-set">
       <h1>The Ultimate Flashcard Set!</h1>
-      <p>Test your knowledge and flip the card to see the answer.</p>
+      <p>Test your knowledge. Type your answer before flipping the card!</p>
 
       <p className="card-count">
-        Subject: <strong>{currentCard.subject}</strong> | Difficulty: <strong>{currentCard.category}</strong><br />
-        Card {index + 1} of {flashcards.length}
+        Subject: <strong>{currentCard.subject}</strong> | Difficulty:{" "}
+        <strong>{currentCard.category}</strong>
+        <br />
+        Card {index + 1} of {cards.length}
       </p>
 
       <div
         className="flashcard"
         style={{ backgroundColor: categoryColors[currentCard.category] }}
-        onClick={() => setShowAnswer(!showAnswer)}
       >
         {currentCard.image && (
           <img src={currentCard.image} alt="flashcard" className="card-img" />
@@ -185,17 +146,41 @@ function FlashcardSet() {
         </h2>
       </div>
 
+      {!showAnswer && (
+        <form onSubmit={handleSubmit} className="guess-form">
+          <input
+            type="text"
+            placeholder="Your guess..."
+            value={guess}
+            onChange={(e) => setGuess(e.target.value)}
+          />
+          <button type="submit">Submit</button>
+        </form>
+      )}
+
+      {feedback && <p className="feedback">{feedback}</p>}
+
       <div className="nav-buttons">
-        <button onClick={prevCard}>
-          <ChevronLeft size={24} /> Prev
+        <button onClick={prevCard} disabled={index === 0}>
+          <ChevronLeft size={20} /> Prev
         </button>
-        <button onClick={nextRandomCard}>
-          Random <Shuffle size={24} />
+        <button onClick={shuffleCards}>
+          <Shuffle size={20} /> Shuffle
         </button>
+        <button onClick={nextCard} disabled={index === cards.length - 1}>
+          Next <ChevronRight size={20} />
+        </button>
+      </div>
+
+      <div className="streak-info">
+        <p> Current Streak: {streak}</p>
+        <p> Longest Streak: {maxStreak}</p>
       </div>
     </div>
   );
 }
 
 export default FlashcardSet;
+
+
 
